@@ -1,11 +1,12 @@
 import System.Process (system)
 
-removerElementos :: (Eq a) => [a] -> [a]
-removerElementos [] = []
-removerElementos [x] = [x]
-removerElementos (h:t)
-    | h == head t = removerElementos t
-    | otherwise = h : removerElementos t
+rE :: (Eq a) => [a] -> [a] --removerElementos
+rE [] = []
+rE [x] = [x]
+rE (h:t) = 
+    if vER h (h:t) 0
+        then rE t --Se for repitido
+        else h : rE t --Se não for repitido
 
 vER :: (Eq a) => a -> [a] -> Int -> Bool --verificarElementosRepitidos
 vER _ [] acc = acc > 1
@@ -18,11 +19,10 @@ vER x (h:t) acc =
 main :: IO()
 main = do
     clear
-    let array = ["a","a","b","c","d","b"]
+    let array = ["a","a","b","c","d","b","a"]
 
     putStrLn ("Original: " ++ show array)
-    putStrLn ("Após função: " ++ show (removerElementos array))
-    putStrLn ("Teste função verificação: " ++ show (vER "b" array 0))
+    putStrLn ("Após função: " ++ show (rE array))
 
 
 clear :: IO ()
